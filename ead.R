@@ -54,24 +54,24 @@ get_region <- function(uf) {
 }
 # Adicionar a coluna 'regiao' ao data.frame com base na sigla da instituição
 dados$regiao <- sapply(dados$ifes, get_region)
-# 3. Selecione apenas os cursos acadêmicos
+# Selecione apenas os cursos acadêmicos
 cursos_academicos <- subset(dados, Mod == "Acad")
-# 4. Selecione todas as pós-graduações do Nordeste
+# Selecione todas as pós-graduações do Nordeste
 pos_graduacoes_nordeste <- subset(cursos_academicos, regiao == "Nordeste")
-# 5. Selecione somente as pós-graduações do Nordeste com Nota >= 6
+# Selecione somente as pós-graduações do Nordeste com Nota >= 6
 pos_graduacoes_nordeste_nota <- subset(pos_graduacoes_nordeste, Nota >= 6)
-# 6. Crie um data.frame apenas com os cursos da área de "MATEMÁTICA E ESTATÍSTICA"
+# Crie um data.frame apenas com os cursos da área de "MATEMÁTICA E ESTATÍSTICA"
 matematica_estatistica <- subset(cursos_academicos, area == "MATEMÁTICA E
 ESTATÍSTICA")
-# 7. Selecione apenas aqueles cursos de Matemática e Estatística com nota inferior a 4
+# Selecione apenas aqueles cursos de Matemática e Estatística com nota inferior a 4
 matematica_estatistica_nota_baixa <- subset(matematica_estatistica, Nota < 4)
-# 8. Selecione somente os cursos de Matemática e Estatística com publicações A1 >= 10
+# Selecione somente os cursos de Matemática e Estatística com publicações A1 >= 10
 matematica_estatistica_publicacoes_a1 <- subset(matematica_estatistica_nota_baixa, A1
                                                 >= 10)
-# 9. No data.frame original, crie uma coluna somando o total de publicações A1, A2, ...
+# No data.frame original, crie uma coluna somando o total de publicações A1, A2, ...
 dados$total_publicacoes <- rowSums(dados[, c("A1", "A2", "B1", "B2", "B3", "B4", "B5",
                                              "C")], na.rm = TRUE)
-# 10. Verifique os resultados
+# Verifique os resultados
 head(cursos_academicos)
 head(pos_graduacoes_nordeste)
 head(pos_graduacoes_nordeste_nota)
