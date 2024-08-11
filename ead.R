@@ -11,7 +11,7 @@ unicos_ifes <- unique(dados$ifes)
 print(unicos_ifes)
 # arquivo CSV com todas as universidades do arquivo para criação do script.
 write.csv(unicos_ifes, "C:/Users/orfeu/Desktop/trabalho-AED/unique_ifes.csv", row.names = FALSE)
-# 2. Função para mapear a sigla da universidade à região
+# Função para mapear a sigla da universidade à região
 get_region <- function(uf) {
   nordeste <- c("UFC", "UFBA", "UFAL", "UFPB", "UFPE", "UFRN", "UFMA", "UFS", "UFPI",
                 "UNILAB", "UNIVASF",
@@ -52,26 +52,26 @@ get_region <- function(uf) {
   }
   return(NA)
 }
-# Adicionar a coluna 'regiao' ao data.frame com base na sigla da instituição
+# Adiciona a coluna 'regiao' ao data.frame com base na sigla da instituição
 dados$regiao <- sapply(dados$ifes, get_region)
-# Selecione apenas os cursos acadêmicos
+# Seleciona apenas os cursos acadêmicos
 cursos_academicos <- subset(dados, Mod == "Acad")
-# Selecione todas as pós-graduações do Nordeste
+# Seleciona todas as pós-graduações do Nordeste
 pos_graduacoes_nordeste <- subset(cursos_academicos, regiao == "Nordeste")
-# Selecione somente as pós-graduações do Nordeste com Nota >= 6
+# Seleciona somente as pós-graduações do Nordeste com Nota >= 6
 pos_graduacoes_nordeste_nota <- subset(pos_graduacoes_nordeste, Nota >= 6)
-# Crie um data.frame apenas com os cursos da área de "MATEMÁTICA E ESTATÍSTICA"
+# Cria um data.frame apenas com os cursos da área de "MATEMÁTICA E ESTATÍSTICA"
 matematica_estatistica <- subset(cursos_academicos, area == "MATEMÁTICA E
 ESTATÍSTICA")
-# Selecione apenas aqueles cursos de Matemática e Estatística com nota inferior a 4
+# Seleciona apenas aqueles cursos de Matemática e Estatística com nota inferior a 4
 matematica_estatistica_nota_baixa <- subset(matematica_estatistica, Nota < 4)
-# Selecione somente os cursos de Matemática e Estatística com publicações A1 >= 10
+# Seleciona somente os cursos de Matemática e Estatística com publicações A1 >= 10
 matematica_estatistica_publicacoes_a1 <- subset(matematica_estatistica_nota_baixa, A1
                                                 >= 10)
-# No data.frame original, crie uma coluna somando o total de publicações A1, A2, ...
+# No data.frame original, cria uma coluna somando o total de publicações A1, A2, ...
 dados$total_publicacoes <- rowSums(dados[, c("A1", "A2", "B1", "B2", "B3", "B4", "B5",
                                              "C")], na.rm = TRUE)
-# Verifique os resultados
+# Verificando os resultados
 head(cursos_academicos)
 head(pos_graduacoes_nordeste)
 head(pos_graduacoes_nordeste_nota)
